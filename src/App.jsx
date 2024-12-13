@@ -40,6 +40,15 @@ const App = () => {
             setSuccessMessage(null);
           }, 3000)
         })
+        .catch(error => {
+          console.log(error.response.data.error);
+          setErrorMessage(
+            error.response.data.errors
+          )
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
+        })
     } else if (newName === '' || newNumber === '') {
       alert('Input field is empty');
     } else {
@@ -62,12 +71,21 @@ const App = () => {
             }, 3000)
           })
           .catch(error => {
-            setErrorMessage(
-              `Information of ${newName} has already been removed from server`
-            )
-            setTimeout(() => {
-              setErrorMessage(null)
-            }, 3000)
+            if (error.response && error.response.status === 400) {
+              setErrorMessage(
+                error.response.data.errors
+              )
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 3000)
+            } else {
+              setErrorMessage(
+                `Information of ${newName} has already been removed from server`
+              )
+              setTimeout(() => {
+                setErrorMessage(null)
+              }, 3000)
+            }
           })
       }
     }
