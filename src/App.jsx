@@ -43,7 +43,7 @@ const App = () => {
         .catch(error => {
           console.log(error.response.data.error);
           setErrorMessage(
-            error.response.data.errors
+            error.response.data.error
           )
           setTimeout(() => {
             setErrorMessage(null)
@@ -71,9 +71,9 @@ const App = () => {
             }, 3000)
           })
           .catch(error => {
-            if (error.response && error.response.status === 400) {
+            if (error.response && error.response.data.error) {
               setErrorMessage(
-                error.response.data.errors
+                error.response.data.error
               )
               setTimeout(() => {
                 setErrorMessage(null)
